@@ -1,0 +1,56 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$320000$gcFbjpBpJbFBz6zo7YG9hM$Qy3aGFjOOuWNhktMdnHhPmEJsQgIWfoy55CDmJo6Pzg=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "melissa",
+            "first_name": "Melissa",
+            "last_name": "Fox",
+            "email": "melissa@fox.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-08-28T14:51:39.989Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$320000$L9LWX8YcqcYia86EIwxWtL$tyN52cc+QwvyXnrWOn04KbeR1TGrLd80CRg5RlZNfog=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "morgan",
+            "first_name": "Morgan",
+            "last_name": "Lynd",
+            "email": "morgan@lynd.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-08-28T14:51:39.989Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$320000$s8uapJ6dpP7exeqbrNWdln$EtDLtM7WxoN2aRmCE7g4+7H/RDherzWyq9fRx/Z1jro=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "kyra",
+            "first_name": "Kyra",
+            "last_name": "Paris",
+            "email": "kyra@paris.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2020-08-28T14:51:39.989Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

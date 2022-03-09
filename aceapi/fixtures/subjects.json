@@ -1,0 +1,30 @@
+[
+    {
+        "model": "aceapi.subject",
+        "pk": 1,
+        "fields": {
+            "subject": "English"
+        }
+    },
+    {
+        "model": "aceapi.subject",
+        "pk": 2,
+        "fields": {
+            "subject": "Math"
+        }
+    },
+    {
+        "model": "aceapi.subject",
+        "pk": 3,
+        "fields": {
+            "subject": "Reading"
+        }
+    },
+    {
+        "model": "aceapi.subject",
+        "pk": 4,
+        "fields": {
+            "subject": "Science"
+        }
+    }
+]

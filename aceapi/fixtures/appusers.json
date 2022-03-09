@@ -1,0 +1,37 @@
+[
+    {
+        "model": "aceapi.appuser",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "bio": "Tutoring for 10 years. Specializing in ACT/SAT, ISEE, biology, and lower math",
+            "billing_rate": 115
+        }
+    },
+    {
+        "model": "aceapi.appuser",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "bio": "Junior at Harpeth Hall. Gets testing anxiety",
+            "day": 1,
+            "start_time": "11:00:00",
+            "end_time": "12:00:00",
+            "parent_name": "Kelly Lynd",
+            "parent_email": "kelly@lynd.com"
+        }
+    },
+    {
+        "model": "aceapi.appuser",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "bio": "Junior at Father Ryan. Plays volleyball, wants to continue in college",
+            "day": 1,
+            "start_time": "16:30:00",
+            "end_time": "17:30:00",
+            "parent_name": "Arlie Paris",
+            "parent_email": "arlie@paris.com"
+        }
+    }
+]
