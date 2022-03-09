@@ -1,0 +1,51 @@
+[
+    {
+        "model": "aceapi.day",
+        "pk": 1,
+        "fields": {
+            "day": "Sunday"
+        }
+    },
+    {
+        "model": "aceapi.day",
+        "pk": 2,
+        "fields": {
+            "day": "Monday"
+        }
+    },
+    {
+        "model": "aceapi.day",
+        "pk": 3,
+        "fields": {
+            "day": "Tuesday"
+        }
+    },
+    {
+        "model": "aceapi.day",
+        "pk": 4,
+        "fields": {
+            "day": "Wednesday"
+        }
+    },
+    {
+        "model": "aceapi.day",
+        "pk": 5,
+        "fields": {
+            "day": "Thursday"
+        }
+    },
+    {
+        "model": "aceapi.day",
+        "pk": 6,
+        "fields": {
+            "day": "Friday"
+        }
+    },
+    {
+        "model": "aceapi.day",
+        "pk": 7,
+        "fields": {
+            "day": "Saturday"
+        }
+    }
+]
