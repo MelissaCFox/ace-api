@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -40,11 +40,11 @@ class NoteView(ViewSet):
             student = AppUser.objects.get(pk=request.data['studentId'])
             author = AppUser.objects.get(pk=request.data['authorId'])
 
-            note = Note.objects(
+            note = Note.objects.create(
                 student = student,
                 author = author,
                 note = request.data['note'],
-                date = datetime.date(),
+                date = date.today(),
                 pinned = request.data['pinned']
             )
             serializer = NoteSerializer(note)
