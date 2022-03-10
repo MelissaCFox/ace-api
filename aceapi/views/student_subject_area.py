@@ -53,8 +53,8 @@ class StudentSubjectAreaView(ViewSet):
     def destroy(self, request, pk):
         """handle DELETE request for a student_subject_area resource"""
         try:
-            like = StudentSubjectArea.objects.get(pk=pk)
-            like.delete()
+            student_sa = StudentSubjectArea.objects.get(pk=pk)
+            student_sa.delete()
             return Response(None, status=status.HTTP_204_NO_CONTENT)
         except StudentSubjectArea.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)

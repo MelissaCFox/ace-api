@@ -9,3 +9,5 @@ class Score(models.Model):
     math = models.IntegerField()
     reading = models.IntegerField()
     science = models.IntegerField()
+
+    ## add custom property to calculate overall score for test
