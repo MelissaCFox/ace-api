@@ -4,7 +4,8 @@ from django.conf.urls import include
 from rest_framework import routers
 from aceapi.views import (register_user, login_user, DayView, AppUserView,
                           SubjectView, SubjectAreaView, NoteView, TestView,
-                          LikeView, TutorStudentView, StudentSubjectAreaView)
+                          LikeView, TutorStudentView, StudentSubjectAreaView,
+                          ScoreView)
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'days', DayView, 'day')
@@ -17,6 +18,7 @@ router.register(r'tests', TestView, 'test')
 router.register(r'likes', LikeView, 'like')
 router.register(r'pairs', TutorStudentView, 'pair')
 router.register(r'studentareas', StudentSubjectAreaView, 'student area')
+router.register(r'scores', ScoreView, 'score')
 
 urlpatterns = [
     path('', include(router.urls)),
