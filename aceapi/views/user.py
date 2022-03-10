@@ -109,7 +109,8 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
-                  'start_time', 'end_time', 'parent_name', 'parent_email' )
+                  'start_time', 'end_time', 'parent_name', 'parent_email',
+                  'focus_areas')
         depth = 1
 
 class TutorSerializer(serializers.ModelSerializer):
