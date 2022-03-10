@@ -4,3 +4,4 @@ from .user import AppUserView
 from .subject import SubjectView
 from .subject_area import SubjectAreaView
 from .note import NoteView
+from .test import TestView
