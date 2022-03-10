@@ -24,8 +24,8 @@ class DayView(ViewSet):
             Response: JSON serialized day instance
         """
         try:
-            food_type=Day.objects.get(pk=pk)
-            serializer = DaySerializer(food_type)
+            day=Day.objects.get(pk=pk)
+            serializer = DaySerializer(day)
             return Response(serializer.data)
         except Day.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
