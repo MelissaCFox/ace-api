@@ -25,6 +25,26 @@ class AppUserView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
 
+    def update(self, request, pk):
+        """update app_user"""
+        try:
+            user = AppUser.objects.get(pk=pk)
+            user.bio = request.data['bio']
+            if user.user.is_staff:
+                user.billing_rate = request.data['billingRate']
+            else:
+                user.day_id = request.data['dayId']
+                user.start_time = request.data['startTime']
+                user.end_time = request.data['endTime']
+                user.parent_name = request.data['parentName']
+                user.parent_email = request.data['parentEmail']
+            user.save()
+            return Response(None, status=status.HTTP_204_NO_CONTENT)
+
+        except AppUser.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_400_BAD_REQUEST)
+
+
     @action(methods=['get'], detail=False)
     def current(self,request):
         """get current user"""
