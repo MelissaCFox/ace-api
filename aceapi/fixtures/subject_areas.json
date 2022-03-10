@@ -1,0 +1,122 @@
+[
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 1,
+        "fields": {
+            "subject_id": 1,
+            "name": "Production of Knowledge"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 2,
+        "fields": {
+            "subject_id": 1,
+            "name": "Language"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 3,
+        "fields": {
+            "subject_id": 1,
+            "name": "English Conventions"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 4,
+        "fields": {
+            "subject_id": 2,
+            "name": "Algebra"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 5,
+        "fields": {
+            "subject_id": 2,
+            "name": "Functions"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 6,
+        "fields": {
+            "subject_id": 2,
+            "name": "Geometry"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 7,
+        "fields": {
+            "subject_id": 2,
+            "name": "Statistics & Probability"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 8,
+        "fields": {
+            "subject_id": 2,
+            "name": "Integrating Skills"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 9,
+        "fields": {
+            "subject_id": 2,
+            "name": "Modeling"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 10,
+        "fields": {
+            "subject_id": 3,
+            "name": "Key Ideas and Details"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 11,
+        "fields": {
+            "subject_id": 3,
+            "name": "Craft and Structure"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 12,
+        "fields": {
+            "subject_id": 3,
+            "name": "Integrate KNowledge and Ideas"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 13,
+        "fields": {
+            "subject_id": 4,
+            "name": "Interpret Data"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 14,
+        "fields": {
+            "subject_id": 4,
+            "name": "Scientific Investigation"
+        }
+    },
+    {
+        "model": "aceapi.subjectarea",
+        "pk": 15,
+        "fields": {
+            "subject_id": 4,
+            "name": "Evaluation of Models, Inferences, and Results"
+        }
+    }
+]

@@ -1,0 +1,41 @@
+[
+    {
+        "model": "aceapi.score",
+        "pk": 1,
+        "fields": {
+            "student": 2,
+            "test": 3,
+            "date": "2022-01-1",
+            "english": 19,
+            "math": 24,
+            "reading": 25,
+            "science": 21
+        }
+    },
+    {
+        "model": "aceapi.score",
+        "pk": 2,
+        "fields": {
+            "student": 2,
+            "test": 4,
+            "date": "2022-02-27",
+            "english": 22,
+            "math": 24,
+            "reading": 26,
+            "science": 23
+        }
+    },
+    {
+        "model": "aceapi.score",
+        "pk": 3,
+        "fields": {
+            "student": 3,
+            "test": 3,
+            "date": "2022-02-26",
+            "english": 18,
+            "math": 16,
+            "reading": 17,
+            "science": 16
+        }
+    }
+]

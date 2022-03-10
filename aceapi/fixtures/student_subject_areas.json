@@ -1,0 +1,74 @@
+[
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 1,
+        "fields": {
+            "student": 2,
+            "subject_area": 4
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 2,
+        "fields": {
+            "student": 2,
+            "subject_area": 5
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 3,
+        "fields": {
+            "student": 2,
+            "subject_area": 6
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 4,
+        "fields": {
+            "student": 2,
+            "subject_area": 12
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 5,
+        "fields": {
+            "student": 2,
+            "subject_area": 15
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 6,
+        "fields": {
+            "student": 3,
+            "subject_area": 3
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 7,
+        "fields": {
+            "student": 3,
+            "subject_area": 9
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 8,
+        "fields": {
+            "student": 3,
+            "subject_area": 6
+        }
+    },
+    {
+        "model": "aceapi.studentsubjectarea",
+        "pk": 9,
+        "fields": {
+            "student": 3,
+            "subject_area": 10
+        }
+    }
+]

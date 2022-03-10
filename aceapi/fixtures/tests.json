@@ -1,0 +1,38 @@
+[
+    {
+        "model": "aceapi.test",
+        "pk": 1,
+        "fields": {
+            "name": "68C",
+            "year": 2010,
+            "num_sci": 7
+        }
+    },
+    {
+        "model": "aceapi.test",
+        "pk": 2,
+        "fields": {
+            "name": "72F",
+            "year": 2016,
+            "num_sci": 6
+        }
+    },
+    {
+        "model": "aceapi.test",
+        "pk": 3,
+        "fields": {
+            "name": "B04",
+            "year": 2019,
+            "num_sci": 6
+        }
+    },
+    {
+        "model": "aceapi.test",
+        "pk": 4,
+        "fields": {
+            "name": "A11",
+            "year": 2018,
+            "num_sci": 6
+        }
+    }
+]

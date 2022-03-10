@@ -1,0 +1,18 @@
+[
+    {
+        "model": "aceapi.like",
+        "pk": 1,
+        "fields": {
+            "tutor": 1,
+            "test": 1
+        }
+    },
+    {
+        "model": "aceapi.like",
+        "pk": 2,
+        "fields": {
+            "tutor": 1,
+            "test": 2
+        }
+    }
+]
