@@ -9,3 +9,4 @@ from .like import LikeView
 from .tutor_student import TutorStudentView
 from .student_subject_area import StudentSubjectAreaView
 from .score import ScoreView
+from .student_test import StudentTestView
