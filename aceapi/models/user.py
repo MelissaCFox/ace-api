@@ -15,4 +15,12 @@ class AppUser(models.Model):
 
 ##* Add profile image field (having issue with Pillow during ftf deployment?)
 
-##* custom property for superscore
+
+    @property
+    def superscore(self):
+        """calculate max scores (superscores) for each section"""
+        return self.__superscore
+
+    @superscore.setter
+    def superscore(self,value):
+        self.__superscore = value
