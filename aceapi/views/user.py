@@ -2,9 +2,9 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
-from django.db.models import Max
 from django.contrib.auth.models import User
 from aceapi.models import AppUser
+from aceapi.models.score import Score
 
 class AppUserView(ViewSet):
 
@@ -20,7 +20,23 @@ class AppUserView(ViewSet):
                 serializer = TutorSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                ##! annotate superscore
+                
+                # scores = Score.objects.filter(student = app_user)
+                ##! Getting error that score object is not subscriptable
+                # english = int(max(scores, key=lambda x:x['english'])['english'])
+                # math = int(max(scores, key=lambda x:x['math'])['math'])
+                # reading = int(max(scores, key=lambda x:x['reading'])['reading'])
+                # science = int(max(scores, key=lambda x:x['science'])['science'])
+                # overall = (english + math + reading + science) / 4
+
+                # app_user.superscore = {
+                #     "english": english,
+                #     "math": math,
+                #     "reading": reading,
+                #     "science": science,
+                #     "overall": overall
+                # }
+                
                 serializer = StudentSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except AppUser.DoesNotExist as ex:
@@ -62,8 +78,8 @@ class AppUserView(ViewSet):
     @action(methods=['get'], detail=False)
     def students(self,request):
         """get list of student users"""
-        ##! annotate superscore values
         students = AppUser.objects.filter(user__is_staff = False)
+
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -113,7 +129,7 @@ class StudentSerializer(serializers.ModelSerializer):
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
-                  'focus_areas')
+                  'focus_areas', 'superscore')
         depth = 1
 
 class TutorSerializer(serializers.ModelSerializer):
