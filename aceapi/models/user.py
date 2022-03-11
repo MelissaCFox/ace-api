@@ -14,5 +14,3 @@ class AppUser(models.Model):
     focus_areas = models.ManyToManyField("SubjectArea", through="StudentSubjectArea")
 
 ##* Add profile image field (having issue with Pillow during ftf deployment?)
-
-##* custom property for superscore

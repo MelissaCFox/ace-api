@@ -2,6 +2,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
+from django.db.models import Max
 from django.contrib.auth.models import User
 from aceapi.models import AppUser
 
@@ -19,6 +20,7 @@ class AppUserView(ViewSet):
                 serializer = TutorSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
+                ##! annotate superscore
                 serializer = StudentSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except AppUser.DoesNotExist as ex:
@@ -60,6 +62,7 @@ class AppUserView(ViewSet):
     @action(methods=['get'], detail=False)
     def students(self,request):
         """get list of student users"""
+        ##! annotate superscore values
         students = AppUser.objects.filter(user__is_staff = False)
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

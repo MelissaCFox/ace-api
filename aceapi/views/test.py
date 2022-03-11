@@ -15,6 +15,13 @@ class TestView(ViewSet):
             Response: JSON serialized list of test instances
         """
         tests=Test.objects.all()
+        tutor = AppUser.objects.get(user_id = request.auth.user.id)
+        for test in tests:
+            try:
+                Like.objects.get(tutor = tutor, test = test)
+                test.liked = True
+            except Like.DoesNotExist:
+                test.liked = False
 
         serializer=TestSerializer(tests, many=True)
         return Response(serializer.data)
@@ -28,6 +35,12 @@ class TestView(ViewSet):
         """
         try:
             test=Test.objects.get(pk=pk)
+            tutor = AppUser.objects.get(user_id = request.auth.user.id)
+            try:
+                Like.objects.get(tutor = tutor, test = test)
+                test.liked = True
+            except Like.DoesNotExist:
+                test.liked = False
             serializer = TestSerializer(test)
             return Response(serializer.data)
         except Test.DoesNotExist as ex:
@@ -79,5 +92,5 @@ class TestView(ViewSet):
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        fields = ('__all__')
+        fields = ('id', 'name', 'year', 'num_sci', 'liked')
         depth = 1
