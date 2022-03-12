@@ -24,3 +24,14 @@ class AppUser(models.Model):
     @superscore.setter
     def superscore(self,value):
         self.__superscore = value
+
+
+    @property
+    def unassigned(self):
+        """a boolean value is assigned depending on if a student has 
+        been assigned to a tutor"""
+        return self.__unassigned
+
+    @unassigned.setter
+    def unassigned(self,value):
+        self.__unassigned = value
