@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
-from aceapi.models import AppUser
+from aceapi.models import AppUser, TutorStudent
 from aceapi.models.score import Score
 
 class AppUserView(ViewSet):
@@ -20,7 +20,7 @@ class AppUserView(ViewSet):
                 serializer = TutorSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-                
+  
                 # scores = Score.objects.filter(student = app_user)
                 ##! Getting error that score object is not subscriptable
                 # english = int(max(scores, key=lambda x:x['english'])['english'])
@@ -36,7 +36,7 @@ class AppUserView(ViewSet):
                 #     "science": science,
                 #     "overall": overall
                 # }
-                
+
                 serializer = StudentSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except AppUser.DoesNotExist as ex:
@@ -79,6 +79,12 @@ class AppUserView(ViewSet):
     def students(self,request):
         """get list of student users"""
         students = AppUser.objects.filter(user__is_staff = False)
+        for student in students:
+            try:
+                TutorStudent.objects.get(student = student)
+                student.unassigned = False
+            except TutorStudent.DoesNotExist:
+                student.unassigned = True
 
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -129,7 +135,7 @@ class StudentSerializer(serializers.ModelSerializer):
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
-                  'focus_areas', 'superscore')
+                  'focus_areas', 'superscore', 'unassigned')
         depth = 1
 
 class TutorSerializer(serializers.ModelSerializer):
