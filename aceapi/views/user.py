@@ -2,9 +2,11 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
+from django.db.models import Q
 from django.contrib.auth.models import User
 from aceapi.models import AppUser, TutorStudent
 from aceapi.models.score import Score
+
 
 class AppUserView(ViewSet):
 
@@ -15,14 +17,14 @@ class AppUserView(ViewSet):
             Response: JSON serialized user instance
         """
         try:
-            app_user=AppUser.objects.get(pk=pk)
+            app_user = AppUser.objects.get(pk=pk)
             if app_user.user.is_staff:
                 serializer = TutorSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
-  
+
                 # scores = Score.objects.filter(student = app_user)
-                ##! Getting error that score object is not subscriptable
+                # ! Getting error that score object is not subscriptable
                 # english = int(max(scores, key=lambda x:x['english'])['english'])
                 # math = int(max(scores, key=lambda x:x['math'])['math'])
                 # reading = int(max(scores, key=lambda x:x['reading'])['reading'])
@@ -42,12 +44,11 @@ class AppUserView(ViewSet):
         except AppUser.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
-
     def update(self, request, pk):
         """update app_user"""
         try:
             user = AppUser.objects.get(pk=pk)
-            auth_user = User.objects.get(pk = user.user_id)
+            auth_user = User.objects.get(pk=user.user_id)
             user.bio = request.data['bio']
             auth_user.email = request.data['email']
             auth_user.first_name = request.data['firstName']
@@ -67,11 +68,10 @@ class AppUserView(ViewSet):
         except AppUser.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_400_BAD_REQUEST)
 
-
     @action(methods=['get'], detail=False)
-    def current(self,request):
+    def current(self, request):
         """get current user"""
-        user = AppUser.objects.get(user = request.auth.user)
+        user = AppUser.objects.get(user=request.auth.user)
         if user.user.is_staff:
             serializer = TutorSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -79,14 +79,13 @@ class AppUserView(ViewSet):
             serializer = StudentSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-
     @action(methods=['get'], detail=False)
-    def students(self,request):
+    def students(self, request):
         """get list of student users"""
-        students = AppUser.objects.filter(user__is_staff = False)
+        students = AppUser.objects.filter(user__is_staff=False)
         for student in students:
             try:
-                pair = TutorStudent.objects.get(student_id = student)
+                pair = TutorStudent.objects.get(student_id=student)
                 student.unassigned = False
                 student.tutor_id = pair.tutor_id
             except TutorStudent.DoesNotExist:
@@ -96,17 +95,27 @@ class AppUserView(ViewSet):
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
     @action(methods=['get'], detail=False)
-    def tutors(self,request):
+    def tutors(self, request):
         """get list of tutor users"""
-        tutors = AppUser.objects.filter(user__is_staff = True)
+        search_text = self.request.query_params.get('q', None)
+        if search_text is not None:
+            tutors = AppUser.objects.filter(
+                Q(user__is_staff=True) &
+                Q(user__is_superuser=False) &
+                (
+                    Q(user__first_name__contains=search_text) |
+                    Q(user__last_name__contains=search_text) |
+                    Q(bio__contains=search_text)
+                )
+            ).distinct()
+        else:
+            tutors = AppUser.objects.filter(user__is_staff=True)
         serializer = TutorSerializer(tutors, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
     @action(methods=['put'], detail=True)
-    def activate(self,request, pk):
+    def activate(self, request, pk):
         """activate user"""
         try:
             user = User.objects.get(pk=pk)
@@ -122,7 +131,6 @@ class AppUserView(ViewSet):
                 return Response({'message: user is now active'}, status=status.HTTP_204_NO_CONTENT)
         except User.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
-
 
     # @action(methods=['put'], detail=True)
     # def deactivate(self,request, pk):
@@ -143,8 +151,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'is_superuser', 'username', 'first_name', 'last_name',
                   'email', 'is_staff', 'is_active')
 
+
 class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+
     class Meta:
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
@@ -152,8 +162,10 @@ class StudentSerializer(serializers.ModelSerializer):
                   'focus_areas', 'superscore', 'unassigned', 'tutor_id')
         depth = 1
 
+
 class TutorSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+
     class Meta:
         model = AppUser
         fields = ('id', 'user', 'bio', 'billing_rate')
