@@ -47,7 +47,11 @@ class AppUserView(ViewSet):
         """update app_user"""
         try:
             user = AppUser.objects.get(pk=pk)
+            auth_user = User.objects.get(pk = user.user_id)
             user.bio = request.data['bio']
+            auth_user.email = request.data['email']
+            auth_user.first_name = request.data['firstName']
+            auth_user.last_name = request.data['lastName']
             if user.user.is_staff:
                 user.billing_rate = request.data['billingRate']
             else:
@@ -56,6 +60,7 @@ class AppUserView(ViewSet):
                 user.end_time = request.data['endTime']
                 user.parent_name = request.data['parentName']
                 user.parent_email = request.data['parentEmail']
+            auth_user.save()
             user.save()
             return Response(None, status=status.HTTP_204_NO_CONTENT)
 
@@ -81,10 +86,12 @@ class AppUserView(ViewSet):
         students = AppUser.objects.filter(user__is_staff = False)
         for student in students:
             try:
-                TutorStudent.objects.get(student = student)
+                pair = TutorStudent.objects.get(student_id = student)
                 student.unassigned = False
+                student.tutor_id = pair.tutor_id
             except TutorStudent.DoesNotExist:
                 student.unassigned = True
+                student.tutor_id = "0"
 
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -103,24 +110,31 @@ class AppUserView(ViewSet):
         """activate user"""
         try:
             user = User.objects.get(pk=pk)
-            user.is_active = 1
-            user.save()
-            return Response({'message: user is now active'}, status=status.HTTP_204_NO_CONTENT)
+            if user.is_active:
+                user.is_active = 0
+                user.save()
+                return Response({'message: user has been deactivated'},
+                                status=status.HTTP_204_NO_CONTENT)
+
+            else:
+                user.is_active = 1
+                user.save()
+                return Response({'message: user is now active'}, status=status.HTTP_204_NO_CONTENT)
         except User.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
 
-    @action(methods=['put'], detail=True)
-    def deactivate(self,request, pk):
-        """activate user"""
-        try:
-            user = User.objects.get(pk=pk)
-            user.is_active = 0
-            user.save()
-            return Response({'message: user has been deactivated'},
-                            status=status.HTTP_204_NO_CONTENT)
-        except User.DoesNotExist as ex:
-            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+    # @action(methods=['put'], detail=True)
+    # def deactivate(self,request, pk):
+    #     """activate user"""
+    #     try:
+    #         user = User.objects.get(pk=pk)
+    #         user.is_active = 0
+    #         user.save()
+    #         return Response({'message: user has been deactivated'},
+    #                         status=status.HTTP_204_NO_CONTENT)
+    #     except User.DoesNotExist as ex:
+    #         return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -135,7 +149,7 @@ class StudentSerializer(serializers.ModelSerializer):
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
-                  'focus_areas', 'superscore', 'unassigned')
+                  'focus_areas', 'superscore', 'unassigned', 'tutor_id')
         depth = 1
 
 class TutorSerializer(serializers.ModelSerializer):
