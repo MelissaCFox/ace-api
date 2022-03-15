@@ -28,10 +28,20 @@ class AppUser(models.Model):
 
     @property
     def unassigned(self):
-        """a boolean value is assigned depending on if a student has 
-        been assigned to a tutor"""
+        """a boolean value is assigned depending on if a student has
+        been assigned to a tutor yet or not"""
         return self.__unassigned
 
     @unassigned.setter
     def unassigned(self,value):
         self.__unassigned = value
+
+
+    @property
+    def tutor_id(self):
+        """a tutor instance that has been assigned to student"""
+        return self.__tutor_id
+
+    @tutor_id.setter
+    def tutor_id(self,value):
+        self.__tutor_id = value
