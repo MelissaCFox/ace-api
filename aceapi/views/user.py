@@ -110,7 +110,10 @@ class AppUserView(ViewSet):
                 )
             ).distinct()
         else:
-            tutors = AppUser.objects.filter(user__is_staff=True)
+            tutors = AppUser.objects.filter(
+                Q(user__is_staff=True) &
+                Q(user__is_superuser=False)
+                )
         serializer = TutorSerializer(tutors, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
