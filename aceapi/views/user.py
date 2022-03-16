@@ -135,18 +135,6 @@ class AppUserView(ViewSet):
         except User.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
-    # @action(methods=['put'], detail=True)
-    # def deactivate(self,request, pk):
-    #     """activate user"""
-    #     try:
-    #         user = User.objects.get(pk=pk)
-    #         user.is_active = 0
-    #         user.save()
-    #         return Response({'message: user has been deactivated'},
-    #                         status=status.HTTP_204_NO_CONTENT)
-    #     except User.DoesNotExist as ex:
-    #         return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
