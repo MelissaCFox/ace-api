@@ -1,4 +1,5 @@
 from django.forms import ValidationError
+from django.db.models import Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -14,7 +15,11 @@ class ScoreView(ViewSet):
         Returns:
             Response: JSON serialized list of score instances
         """
-        scores=Score.objects.all()
+        id = self.request.query_params.get('studentId', None)
+        if id is not None:
+            scores = Score.objects.filter(Q(student_id = id))
+        else:
+            scores=Score.objects.all()
 
         serializer=ScoreSerializer(scores, many=True)
         return Response(serializer.data)
@@ -80,7 +85,6 @@ class ScoreView(ViewSet):
 
 
 class ScoreSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
     class Meta:
         model = Score
         fields = ('id', 'student', 'date', 'english', 'math', 'reading', 'science',
