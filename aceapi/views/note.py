@@ -38,7 +38,7 @@ class NoteView(ViewSet):
         """handle POST request to create a new note instance"""
         try:
             student = AppUser.objects.get(pk=request.data['studentId'])
-            author = AppUser.objects.get(pk=request.data['authorId'])
+            author = AppUser.objects.get(user_id=request.auth.user.id)
 
             note = Note.objects.create(
                 student = student,
@@ -78,27 +78,33 @@ class NoteView(ViewSet):
 
     @action(methods=['put'], detail=True)
     def pin(self,request, pk):
-        """pin note"""
+        """pin and unpin notes"""
         try:
             note = Note.objects.get(pk=pk)
-            note.pinned = 1
-            note.save()
-            return Response({'message: note is now pinned'}, status=status.HTTP_204_NO_CONTENT)
+            if note.pinned == 1:
+                note.pinned = 0
+                note.save()
+                return Response({'message: note is no longer pinned'},
+                                status=status.HTTP_204_NO_CONTENT)
+            elif note.pinned == 0:
+                note.pinned = 1
+                note.save()
+                return Response({'message: note is now pinned'}, status=status.HTTP_204_NO_CONTENT)
         except Note.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
 
-    @action(methods=['put'], detail=True)
-    def unpin(self,request, pk):
-        """unpin note"""
-        try:
-            note = Note.objects.get(pk=pk)
-            note.pinned = 0
-            note.save()
-            return Response({'message: note is no longer pinned'},
-                            status=status.HTTP_204_NO_CONTENT)
-        except Note.DoesNotExist as ex:
-            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+    # @action(methods=['put'], detail=True)
+    # def unpin(self,request, pk):
+    #     """unpin note"""
+    #     try:
+    #         note = Note.objects.get(pk=pk)
+    #         note.pinned = 0
+    #         note.save()
+    #         return Response({'message: note is no longer pinned'},
+    #                         status=status.HTTP_204_NO_CONTENT)
+    #     except Note.DoesNotExist as ex:
+    #         return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
 
 

@@ -38,7 +38,13 @@ class AppUserView(ViewSet):
                 #     "science": science,
                 #     "overall": overall
                 # }
-
+                try:
+                    pair = TutorStudent.objects.get(student_id=app_user)
+                    app_user.unassigned = False
+                    app_user.tutor_id = pair.tutor_id
+                except TutorStudent.DoesNotExist:
+                    app_user.unassigned = True
+                    app_user.tutor_id = "0"
                 serializer = StudentSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
         except AppUser.DoesNotExist as ex:
@@ -78,6 +84,7 @@ class AppUserView(ViewSet):
         else:
             serializer = StudentSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
+
 
     @action(methods=['get'], detail=False)
     def students(self, request):
@@ -136,6 +143,17 @@ class AppUserView(ViewSet):
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
 
+    @action(methods=['put'], detail=True)
+    def set_areas(self, request, pk):
+        """set new focus areas ids for student user"""
+        try:
+            user = AppUser.objects.get(pk=pk)
+            user.focus_areas.set(request.data['focusAreas'])
+            return Response({'message: student focus areas have been updated'}, status=status.HTTP_204_NO_CONTENT)
+        except User.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -150,7 +168,7 @@ class StudentSerializer(serializers.ModelSerializer):
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
-                  'focus_areas', 'superscore', 'unassigned', 'tutor_id')
+                  'focus_areas', 'superscore', 'unassigned', 'tutor_id', 'notes')
         depth = 1
 
 
