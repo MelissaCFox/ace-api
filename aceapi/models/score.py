@@ -2,7 +2,7 @@ from django.db import models
 from aceapi.models import AppUser, Test
 
 class Score(models.Model):
-    student = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    student = models.ForeignKey(AppUser, on_delete=models.CASCADE, related_name="scores")
     date = models.DateField()
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     english = models.IntegerField(null=True, blank=True)
