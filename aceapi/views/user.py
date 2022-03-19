@@ -168,7 +168,8 @@ class StudentSerializer(serializers.ModelSerializer):
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
-                  'focus_areas', 'superscore', 'unassigned', 'tutor_id', 'notes')
+                  'focus_areas', 'superscore', 'unassigned', 'tutor_id', 'notes',
+                  'scores')
         depth = 1
 
 
