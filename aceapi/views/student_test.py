@@ -1,4 +1,5 @@
 from django.forms import ValidationError
+from django.db.models import Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -14,7 +15,11 @@ class StudentTestView(ViewSet):
         Returns:
             Response: JSON serialized list of student_test instances
         """
-        student_tests=StudentTest.objects.all()
+        student = self.request.query_params.get('studentId', None)
+        if student is not None:
+            student_tests = StudentTest.objects.filter(Q(student_id = student))
+        else:
+            student_tests=StudentTest.objects.all()
 
         serializer=StudentTestSerializer(student_tests, many=True)
         return Response(serializer.data)
@@ -81,7 +86,6 @@ class StudentTestView(ViewSet):
 
 
 class StudentTestSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
     class Meta:
         model = StudentTest
         fields = ('__all__')
