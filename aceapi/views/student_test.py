@@ -1,4 +1,5 @@
 from django.forms import ValidationError
+from django.db.models import Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -14,7 +15,11 @@ class StudentTestView(ViewSet):
         Returns:
             Response: JSON serialized list of student_test instances
         """
-        student_tests=StudentTest.objects.all()
+        student = self.request.query_params.get('studentId', None)
+        if student is not None:
+            student_tests = StudentTest.objects.filter(Q(student_id = student))
+        else:
+            student_tests=StudentTest.objects.all()
 
         serializer=StudentTestSerializer(student_tests, many=True)
         return Response(serializer.data)
@@ -44,7 +49,7 @@ class StudentTestView(ViewSet):
                 test = test,
                 english = request.data['english'],
                 math = request.data['math'],
-                reading = request.data['math'],
+                reading = request.data['reading'],
                 science = request.data['science']
             )
             serializer = StudentTestSerializer(student_test)
@@ -63,9 +68,18 @@ class StudentTestView(ViewSet):
             student_test.math = request.data['math']
             student_test.reading = request.data['reading']
             student_test.science = request.data['science']
+            
+            no_english = request.data['english'] == "0,0,0,0,0"
+            no_math = request.data['math'] == "0,0,0"
+            no_reading = request.data['reading'] =="0,0,0,0"
+            no_science = request.data['science'] == "0,0,0,0,0,0" or request.data['science'] == "0,0,0,0,0,0,0"
 
-            student_test.save()
-            return Response(None, status=status.HTTP_204_NO_CONTENT)
+            if  no_english and no_math and no_reading and no_science:
+                student_test.delete()
+                return Response(None, status=status.HTTP_204_NO_CONTENT)
+            else:
+                student_test.save()
+                return Response(None, status=status.HTTP_204_NO_CONTENT)
         except StudentTest.DoesNotExist as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_404_NOT_FOUND)
 
@@ -81,7 +95,6 @@ class StudentTestView(ViewSet):
 
 
 class StudentTestSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
     class Meta:
         model = StudentTest
         fields = ('__all__')
