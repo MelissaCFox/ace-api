@@ -64,9 +64,9 @@ class ScoreView(ViewSet):
         """handle PUT request for an existing score"""
         try:
             score = Score.objects.get(pk=pk)
-            score.english = request.data['english'],
-            score.math = request.data['math'],
-            score.reading = request.data['reading'],
+            score.english = request.data['english']
+            score.math = request.data['math']
+            score.reading = request.data['reading']
             score.science = request.data['science']
             score.save()
             return Response(None, status=status.HTTP_204_NO_CONTENT)
@@ -87,6 +87,6 @@ class ScoreView(ViewSet):
 class ScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
-        fields = ('id', 'student', 'date', 'english', 'math', 'reading', 'science',
+        fields = ('id', 'student', 'date', 'test', 'english', 'math', 'reading', 'science',
                   'overall')
         depth = 1

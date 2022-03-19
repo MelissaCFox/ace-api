@@ -14,7 +14,7 @@ class TestView(ViewSet):
         Returns:
             Response: JSON serialized list of test instances
         """
-        tests=Test.objects.order_by('-year')
+        tests=Test.objects.order_by('name')
         tutor = AppUser.objects.get(user_id = request.auth.user.id)
         for test in tests:
             try:
