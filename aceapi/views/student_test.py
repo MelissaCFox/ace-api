@@ -97,5 +97,6 @@ class StudentTestView(ViewSet):
 class StudentTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentTest
-        fields = ('__all__')
+        fields = ('id', 'english', 'math', 'reading', 'science', 'student', 'test',
+                'completion')
         depth = 1
