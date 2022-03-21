@@ -9,6 +9,7 @@ class StudentTest(models.Model):
     reading = models.CharField(max_length=20)
     science = models.CharField(max_length=20)
     updated = models.DateField()
+    submitter = models.ForeignKey(AppUser, on_delete=models.CASCADE, related_name="submitted_tests")
 
     @property
     def completion(self):

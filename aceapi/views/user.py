@@ -84,6 +84,22 @@ class AppUserView(ViewSet):
             serializer = TutorSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
+            scores = Score.objects.filter(student = user)
+
+            if len(scores) > 0:
+                english = max(scores, key=lambda x:x.english).english
+                math = max(scores, key=lambda x:x.math).math
+                reading = max(scores, key=lambda x:x.reading).reading
+                science = max(scores, key=lambda x:x.science).science
+                overall = round((english + math + reading + science) / 4)
+
+                user.superscore = {
+                    "english": english,
+                    "math": math,
+                    "reading": reading,
+                    "science": science,
+                    "overall": overall
+                }
             serializer = StudentSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
 

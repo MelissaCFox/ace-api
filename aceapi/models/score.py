@@ -9,7 +9,8 @@ class Score(models.Model):
     math = models.IntegerField(null=True, blank=True)
     reading = models.IntegerField(null=True, blank=True)
     science = models.IntegerField(null=True, blank=True)
-    # submitter = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    submitter = models.ForeignKey(AppUser, on_delete=models.CASCADE,
+                                  related_name="submitted_scores")
     # official = models.BooleanField()
 
     ## add custom property to calculate overall score for test
