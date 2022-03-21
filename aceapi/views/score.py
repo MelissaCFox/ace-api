@@ -4,7 +4,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from aceapi.models import Score, AppUser, Test
-from aceapi.views.user import StudentSerializer
+from aceapi.views.user import StudentSerializer, TutorSerializer
 
 
 class ScoreView(ViewSet):
@@ -85,8 +85,9 @@ class ScoreView(ViewSet):
 
 
 class ScoreSerializer(serializers.ModelSerializer):
+    submitter = TutorSerializer()
     class Meta:
         model = Score
         fields = ('id', 'student', 'date', 'test', 'english', 'math', 'reading', 'science',
-                  'overall')
+                  'overall', 'submitter')
         depth = 1
