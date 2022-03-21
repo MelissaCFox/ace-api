@@ -43,6 +43,7 @@ class ScoreView(ViewSet):
         """handle POST request to create a new score instance"""
         try:
             student = AppUser.objects.get(pk = request.data['studentId'])
+            submitter = AppUser.objects.get(pk = request.auth.user.id)
             test = Test.objects.get(pk=request.data['testId'])
             score = Score.objects.create(
                 student = student,
@@ -51,7 +52,8 @@ class ScoreView(ViewSet):
                 english = request.data['english'],
                 math = request.data['math'],
                 reading = request.data['reading'],
-                science = request.data['science']
+                science = request.data['science'],
+                submitter = submitter
             )
             serializer = ScoreSerializer(score)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
