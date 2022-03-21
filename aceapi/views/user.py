@@ -67,6 +67,8 @@ class AppUserView(ViewSet):
                 user.end_time = request.data['endTime']
                 user.parent_name = request.data['parentName']
                 user.parent_email = request.data['parentEmail']
+            if 'newPassword' in request.data:
+                auth_user.set_password(request.data['newPassword'])
             auth_user.save()
             user.save()
             return Response(None, status=status.HTTP_204_NO_CONTENT)
@@ -160,6 +162,13 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'is_superuser', 'username', 'first_name', 'last_name',
                   'email', 'is_staff', 'is_active')
 
+class TutorSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = AppUser
+        fields = ('id', 'user', 'bio', 'billing_rate')
+        depth = 1
 
 class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -168,15 +177,6 @@ class StudentSerializer(serializers.ModelSerializer):
         model = AppUser
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
-                  'focus_areas', 'superscore', 'unassigned', 'tutor_id', 'notes',
+                  'focus_areas', 'superscore', 'unassigned', 'tutor_id', 'tutors', 'notes',
                   'scores')
-        depth = 1
-
-
-class TutorSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
-    class Meta:
-        model = AppUser
-        fields = ('id', 'user', 'bio', 'billing_rate')
         depth = 1
