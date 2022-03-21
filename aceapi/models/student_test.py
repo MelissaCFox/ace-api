@@ -8,6 +8,7 @@ class StudentTest(models.Model):
     math = models.CharField(max_length=20)
     reading = models.CharField(max_length=20)
     science = models.CharField(max_length=20)
+    updated = models.DateField()
 
     @property
     def completion(self):

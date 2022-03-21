@@ -1,9 +1,12 @@
+from datetime import date, datetime
+from time import time
 from django.forms import ValidationError
 from django.db.models import Q
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from aceapi.models import AppUser, StudentTest, Test
+from aceapi.views.test import TestSerializer
 from aceapi.views.user import StudentSerializer
 
 
@@ -17,9 +20,9 @@ class StudentTestView(ViewSet):
         """
         student = self.request.query_params.get('studentId', None)
         if student is not None:
-            student_tests = StudentTest.objects.filter(Q(student_id = student))
+            student_tests = StudentTest.objects.filter(Q(student_id = student)).order_by('-updated')
         else:
-            student_tests=StudentTest.objects.all()
+            student_tests=StudentTest.objects.all().order_by('-updated')
 
         serializer=StudentTestSerializer(student_tests, many=True)
         return Response(serializer.data)
@@ -50,7 +53,8 @@ class StudentTestView(ViewSet):
                 english = request.data['english'],
                 math = request.data['math'],
                 reading = request.data['reading'],
-                science = request.data['science']
+                science = request.data['science'],
+                updated = date.today()
             )
             serializer = StudentTestSerializer(student_test)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -68,7 +72,8 @@ class StudentTestView(ViewSet):
             student_test.math = request.data['math']
             student_test.reading = request.data['reading']
             student_test.science = request.data['science']
-            
+            student_test.updated = date.today()
+
             no_english = request.data['english'] == "0,0,0,0,0"
             no_math = request.data['math'] == "0,0,0"
             no_reading = request.data['reading'] =="0,0,0,0"
@@ -98,5 +103,5 @@ class StudentTestSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentTest
         fields = ('id', 'english', 'math', 'reading', 'science', 'student', 'test',
-                'completion')
+                'updated', 'completion')
         depth = 1
