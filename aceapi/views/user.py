@@ -194,5 +194,5 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
                   'focus_areas', 'superscore', 'unassigned', 'tutor_id', 'tutors', 'notes',
-                  'scores', 'superscore')
-        depth = 1
+                  'scores', 'superscore', 'tests')
+        depth = 2

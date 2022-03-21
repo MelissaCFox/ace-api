@@ -47,6 +47,7 @@ class StudentTestView(ViewSet):
         try:
             test = Test.objects.get(pk = request.data['testId'])
             student = AppUser.objects.get(pk = request.data['studentId'])
+            submitter = AppUser.objects.get(user_id = request.auth.user.id)
             student_test = StudentTest.objects.create(
                 student = student,
                 test = test,
@@ -54,7 +55,8 @@ class StudentTestView(ViewSet):
                 math = request.data['math'],
                 reading = request.data['reading'],
                 science = request.data['science'],
-                updated = date.today()
+                updated = date.today(),
+                submitter = submitter
             )
             serializer = StudentTestSerializer(student_test)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

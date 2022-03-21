@@ -43,7 +43,7 @@ class ScoreView(ViewSet):
         """handle POST request to create a new score instance"""
         try:
             student = AppUser.objects.get(pk = request.data['studentId'])
-            submitter = AppUser.objects.get(pk = request.auth.user.id)
+            submitter = AppUser.objects.get(user_id = request.auth.user.id)
             test = Test.objects.get(pk=request.data['testId'])
             score = Score.objects.create(
                 student = student,
