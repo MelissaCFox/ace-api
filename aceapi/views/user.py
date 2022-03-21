@@ -22,22 +22,22 @@ class AppUserView(ViewSet):
                 serializer = TutorSerializer(app_user)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
+                scores = Score.objects.filter(student = app_user)
 
-                # scores = Score.objects.filter(student = app_user)
-                # ! Getting error that score object is not subscriptable
-                # english = int(max(scores, key=lambda x:x['english'])['english'])
-                # math = int(max(scores, key=lambda x:x['math'])['math'])
-                # reading = int(max(scores, key=lambda x:x['reading'])['reading'])
-                # science = int(max(scores, key=lambda x:x['science'])['science'])
-                # overall = (english + math + reading + science) / 4
+                if len(scores) > 0:
+                    english = max(scores, key=lambda x:x.english).english
+                    math = max(scores, key=lambda x:x.math).math
+                    reading = max(scores, key=lambda x:x.reading).reading
+                    science = max(scores, key=lambda x:x.science).science
+                    overall = round((english + math + reading + science) / 4)
 
-                # app_user.superscore = {
-                #     "english": english,
-                #     "math": math,
-                #     "reading": reading,
-                #     "science": science,
-                #     "overall": overall
-                # }
+                    app_user.superscore = {
+                        "english": english,
+                        "math": math,
+                        "reading": reading,
+                        "science": science,
+                        "overall": overall
+                    }
                 try:
                     pair = TutorStudent.objects.get(student_id=app_user)
                     app_user.unassigned = False
@@ -178,5 +178,5 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'bio', 'day',
                   'start_time', 'end_time', 'parent_name', 'parent_email',
                   'focus_areas', 'superscore', 'unassigned', 'tutor_id', 'tutors', 'notes',
-                  'scores')
+                  'scores', 'superscore')
         depth = 1
