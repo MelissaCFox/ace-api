@@ -1,3 +1,4 @@
+import math
 from django.db import models
 from aceapi.models import AppUser, Test
 
@@ -19,6 +20,6 @@ class Score(models.Model):
         """if calculate overall score"""
         if self.english and self.math and self.reading and self.science:
             total = self.english + self.math + self.reading + self.science
-            return total / 4
+            return math.floor(total / 4)
         else:
             return "N/A"
